@@ -22,7 +22,7 @@ $notInstalledStmt = $pdo->query("
 ");
 $usersNotInstalled = $notInstalledStmt->fetchColumn();
 
-// Optional: Get all users + install count
+// Get all users + install count
 $installStatsStmt = $pdo->query("
     SELECT u.username, COUNT(i.id) AS installs
     FROM users u
@@ -57,22 +57,25 @@ $userStats = $installStatsStmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
 
         <h3>📋 User Install Breakdown</h3>
-        <table id="user-table">
-            <thead>
-                <tr>
-                    <th>Username</th>
-                    <th>Install Count</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($userStats as $row): ?>
+        <div class="table_container">
+            <table id="user-table">
+                <thead>
                     <tr>
-                        <td><?= htmlspecialchars($row['username']) ?></td>
-                        <td><?= $row['installs'] ?></td>
+                        <th>Username</th>
+                        <th>Install Count</th>
                     </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <?php foreach ($userStats as $row): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($row['username']) ?></td>
+                            <td><?= $row['installs'] ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+                <a href="export_users.php" class="export-btn">⬇️ Export Users to Excel</a>
+        </div>
     </div>
 </body>
 
